@@ -25,7 +25,7 @@ Organizations:
         ID: SolapurHealthcareMSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: crypto-config/ordererOrganizations/solapurhealthcare.in/msp
+        MSPDir: ../../organizations/ordererOrganizations/solapurhcareorderer.in/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -33,26 +33,33 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('OrdererMSP.member')"
+                Rule: "OR('SolapurHealthcareMSP.member')"
             Writers:
                 Type: Signature
-                Rule: "OR('OrdererMSP.member')"
+                Rule: "OR('SolapurHealthcareMSP.member')"
             Admins:
                 Type: Signature
-                Rule: "OR('OrdererMSP.admin')"
+                Rule: "OR('SolapurHealthcareMSP.admin')"
 
         OrdererEndpoints:
-            - orderer.example.com:7050
+            - solapurhcareorderer.in:7050
 
-    - &CSMSR
+        AnchorPeers:
+            # AnchorPeers defines the location of peers which can be used
+            # for cross org gossip communication.  Note, this value is only
+            # encoded in the genesis block in the Application section context
+            - Host: solapurhealthcare.co.in
+              Port: 7051
+
+    - &SCSMSR
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: CSMSRMSP
+        Name: SCSMSRMSP
 
         # ID to load the MSP definition as
-        ID: CSMSR
+        ID: SCSMSRMSP
 
-        MSPDir: crypto-config/peerOrganizations/csmsr.gov.in/msp
+        MSPDir: ../../organizations/peerOrganizations/scsmsr.co.in/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -60,23 +67,23 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('CSMSRMSP.admin', 'CSMSRMSP.peer', 'CSMSRMSP.client')"
+                Rule: "OR('SCSMSRMSP.admin', 'SCSMSRMSP.peer', 'SCSMSRMSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('CSMSRMSP.admin', 'CSMSRMSP.client')"
+                Rule: "OR('SCSMSRMSP.admin', 'SCSMSRMSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('CSMSRMSP.admin')"
+                Rule: "OR('SCSMSRMSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('CSMSRMSP.peer')"
+                Rule: "OR('SCSMSRMSP.peer')"
 
         # leave this flag set to true.
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: general_medicine.csmsr.gov.in
+            - Host: scsmsr.co.in
               Port: 7051
 
     - &AshwiniHospital
@@ -85,9 +92,9 @@ Organizations:
         Name: AshwiniHospitalMSP
 
         # ID to load the MSP definition as
-        ID: AshwiniHospital
+        ID: AshwiniHospitalMSP
 
-        MSPDir: crypto-config/peerOrganizations/ashwinihospital.co.in/msp
+        MSPDir: ../../organizations/peerOrganizations/ashwinihospital.co.in/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -110,7 +117,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: general.ashwinihospital.co.in
+            - Host: ashwinihospital.co.in
               Port: 9051
 
 ################################################################################
@@ -218,6 +225,16 @@ Orderer: &SolapurHealthcareOrdererDefaults
     # Orderer Type: The orderer implementation to start
     OrdererType: etcdraft
 
+    Addresses:
+        - localhost:7050
+
+    EtcdRaft:
+        Consenters:
+        - Host: localhost
+          Port: 7050
+          ClientTLSCert: ../../organizations/ordererOrganizations/solapurhcareorderer.in/orderers/solapurhcareorderer.in/tls/server.crt
+          ServerTLSCert: ../../organizations/ordererOrganizations/solapurhcareorderer.in/orderers/solapurhcareorderer.in/tls/server.crt
+
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s
 
@@ -301,63 +318,26 @@ Channel: &GeneralMedicine
 ################################################################################
 Profiles:
 
-    GeneralMedicine:
-        Consortium: SolapurHealthCare
+    TwoHospitalsOrdererGenesis:
+        <<: *GeneralMedicine
+        Orderer:
+            <<: *SolapurHealthcareOrdererDefaults
+            Organizations:
+                - *SolapurHealthcare
+            Capabilities:
+                <<: *SolapurHealthcareOrdererCapabilities
+        Consortiums:
+            SolapurHealthCareConsortium:
+                Organizations:
+                    - *SCSMSR
+                    - *AshwiniHospital
+    TwoHospitals:
+        Consortium: SolapurHealthCareConsortium
         <<: *GeneralMedicine
         Application:
             <<: *OwnYourHealth
             Organizations:
-                - *CSMSR
+                - *SCSMSR
                 - *AshwiniHospital
             Capabilities:
                 <<: *OwnYourHealthCapabilities
-
-    SampleMultiNodeEtcdRaft:
-        <<: *GeneralMedicine
-        Capabilities:
-            <<: *OwnYourHealthCapabilities
-        Orderer:
-            <<: *SolapurHealthcareOrdererDefaults
-            OrdererType: etcdraft
-            EtcdRaft:
-                Consenters:
-                - Host: orderer.example.com
-                  Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
-                - Host: orderer2.example.com
-                  Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt
-                - Host: orderer3.example.com
-                  Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt
-                - Host: orderer4.example.com
-                  Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/server.crt
-                - Host: orderer5.example.com
-                  Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/server.crt
-            Addresses:
-                - orderer.example.com:7050
-                - orderer2.example.com:7050
-                - orderer3.example.com:7050
-                - orderer4.example.com:7050
-                - orderer5.example.com:7050
-
-            Organizations:
-            - *SolapurHealthcare
-            Capabilities:
-                <<: *SolapurHealthcareOrdererCapabilities
-        Application:
-            <<: *OwnYourHealthCapabilities
-            Organizations:
-            - <<: *SolapurHealthcare
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-                - *CSMSR
-                - *AshwiniHospital

@@ -51,7 +51,7 @@ function createOrganization() {
 
   infoln "Register the ashwini hospital organization admin"
   set -x
-  fabric-ca-client register --caname solapur_healthcare_ca --id.name solapurhcareadmin --id.secret solapurhcareadminpw --id.type admin --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/solapurhealthcare.in/tls-cert.pem
+  fabric-ca-client register --caname solapur_healthcare_ca --id.name ${2}admin --id.secret ${2}adminpw --id.type admin --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/solapurhealthcare.in/tls-cert.pem
   { set +x; } 2>/dev/null
 
   mkdir -p ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers
@@ -83,23 +83,23 @@ function createOrganization() {
   cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/msp/cacerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/ca/solapurhealthcare.in-cert.pem
 
   mkdir -p ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users
-  mkdir -p ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users/${2}User1@solapurhealthcare.in
+  mkdir -p ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users/${2}User1@${1}
 
   infoln "Generate the user msp"
   set -x
-  fabric-ca-client enroll -u https://${2}user1:${2}user1pw@localhost:7054 --caname solapur_healthcare_ca -M ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users/${2}User1@solapurhealthcare.in/msp --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/solapurhealthcare.in/tls-cert.pem
+  fabric-ca-client enroll -u https://${2}user1:${2}user1pw@localhost:7054 --caname solapur_healthcare_ca -M ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users/${2}User1@${1}/msp --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/solapurhealthcare.in/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/msp/config.yaml ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users/${2}User1@solapurhealthcare.in/msp/config.yaml
+  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/msp/config.yaml ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users/${2}User1@${1}/msp/config.yaml
 
-  mkdir -p ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users/Admin@solapurhealthcare.in
+  mkdir -p ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users/Admin@${1}
 
   infoln "Generate the org admin msp"
   set -x
-  fabric-ca-client enroll -u https://solapurhcareadmin:solapurhcareadminpw@localhost:7054 --caname solapur_healthcare_ca -M ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users/Admin@solapurhealthcare.in/msp --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/solapurhealthcare.in/tls-cert.pem
+  fabric-ca-client enroll -u https://${2}admin:${2}adminpw@localhost:7054 --caname solapur_healthcare_ca -M ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users/Admin@${1}/msp --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/solapurhealthcare.in/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/msp/config.yaml ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users/Admin@solapurhealthcare.in/msp/config.yaml
+  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/msp/config.yaml ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users/Admin@${1}/msp/config.yaml
 
 }
 
@@ -149,7 +149,7 @@ function createOrderer() {
 
   infoln "Generate the orderer msp"
   set -x
-  fabric-ca-client enroll -u https://${2}orderer:${2}ordererpw@localhost:7054 --caname solapur_healthcare_ca -M ${FABRIC_ORG_HOME}/organizations/ordererOrganizations/${1}/orderers/${1}/msp --csr.hosts ${1} --csr.hosts localhost --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/solapurhealthcare.in/tls-cert.pem
+  fabric-ca-client enroll -u https://${2}orderer:${2}ordererpw@localhost:7054 --caname solapur_healthcare_ca -M ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/msp --csr.hosts ${1} --csr.hosts localhost --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/solapurhealthcare.in/tls-cert.pem
   { set +x; } 2>/dev/null
 
   cp ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/msp/config.yaml ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/msp/config.yaml
