@@ -9,3 +9,4 @@ chaincode/simple-contract/vendor
 chaincode/simple-contract/go.mod
 chaincode/simple-contract/go.sum
 chaincode/simple-contract/simple-contract
+/organizations
