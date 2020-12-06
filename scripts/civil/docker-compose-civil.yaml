@@ -1,11 +1,12 @@
 
-version: '2'
+version: '3.5'
 
 volumes:
   scsmsr.co.in:
 
 networks:
   healthcare_network:
+   name: healthcare_network
 
 services:
   scsmsr.co.in:

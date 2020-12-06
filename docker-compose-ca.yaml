@@ -3,10 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-version: "2"
+version: "3.5"
 
 networks:
   healthcare_network:
+   name: healthcare_network
 
 services:
   solapur_healthcare_ca:

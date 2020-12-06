@@ -6,6 +6,7 @@ volumes:
 
 networks:
   healthcare_network:
+   name: healthcare_network
 
 services:
 

@@ -1,11 +1,12 @@
 
-version: '2'
+version: '3.5'
 
 volumes:
   ashwinihospital.co.in:
 
 networks:
   healthcare_network:
+   name: healthcare_network
 
 services:
   ashwinihospital.co.in:
@@ -33,7 +34,7 @@ services:
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=ashwinihospital.co.in:9051
       - CORE_PEER_GOSSIP_BOOTSTRAP=ashwinihospital.co.in:9051
-      - CORE_PEER_LOCALMSPID=Org2MSP
+      - CORE_PEER_LOCALMSPID=AshwiniHospitalMSP
     volumes:
         - /var/run/:/host/var/run/
         - ../../organizations/peerOrganizations/ashwinihospital.co.in/peers/ashwinihospital.co.in/msp:/etc/hyperledger/fabric/msp

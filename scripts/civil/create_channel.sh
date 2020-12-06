@@ -18,5 +18,5 @@ peer channel create \
 -c general-medicine-channel \
 --ordererTLSHostnameOverride solapurhcareorderer.in  \
 -f ../../channel-artifacts/channel.tx  \
---outputBlock ../channel-artifacts/general-medicine-channel.block  \
+--outputBlock ../../channel-artifacts/general-medicine-channel.block  \
 --tls --cafile $ORDERER_CA >&log.txt \

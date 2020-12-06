@@ -1,1 +1,12 @@
+dev-mode/ch1*
+dev-mode/sampleconfig/genesisblock
+dev-mode/simple-contract/vendor
+dev-mode/simple-contract/go.mod
+dev-mode/simple-contract/go.sum
+dev-mode/simple-contract/simple-contract
+
+chaincode/simple-contract/vendor
+chaincode/simple-contract/go.mod
+chaincode/simple-contract/go.sum
+chaincode/simple-contract/simple-contract
 /organizations
