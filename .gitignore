@@ -9,4 +9,12 @@ chaincode/simple-contract/vendor
 chaincode/simple-contract/go.mod
 chaincode/simple-contract/go.sum
 chaincode/simple-contract/simple-contract
+chaincode/simple-contract/log.txt
+
+scripts/civil/log.txt
+scripts/ashwini/log.txt
+scripts/solapurhcareorderer/log.txt
+
+/channel-artifacts
+
 /organizations
