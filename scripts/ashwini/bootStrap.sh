@@ -4,5 +4,5 @@ source ../registerEnroll.sh
 # Arguments
 # 1. Organization name
 # 2. 
-createOrganization "ashwinihospital.co.in" "ashwini"
+createOrganization "ashwinihospital.co.in" "ashwini" "localhost:9054"
 

@@ -1,2 +1,1 @@
-[34m2020-12-01 10:32:17.220 IST [channelCmd] InitCmdFactory -> INFO 001[0m Endorser and orderer connections initialized
-[34m2020-12-01 10:32:17.258 IST [channelCmd] executeJoin -> INFO 002[0m Successfully submitted proposal to join channel
+[34m2020-12-16 11:29:47.034 IST [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 001[0m Chaincode invoke successful. result: status:200 payload:"value1" 

@@ -49,7 +49,7 @@ Organizations:
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
             - Host: solapurhealthcare.co.in
-              Port: 7051
+              Port: 7050
 
     - &SCSMSR
         # DefaultOrg defines the organization which is used in the sampleconfig
@@ -226,11 +226,11 @@ Orderer: &SolapurHealthcareOrdererDefaults
     OrdererType: etcdraft
 
     Addresses:
-        - localhost:7050
+        - solapurhcareorderer.in:7050
 
     EtcdRaft:
         Consenters:
-        - Host: localhost
+        - Host: solapurhcareorderer.in
           Port: 7050
           ClientTLSCert: ../../organizations/ordererOrganizations/solapurhcareorderer.in/orderers/solapurhcareorderer.in/tls/server.crt
           ServerTLSCert: ../../organizations/ordererOrganizations/solapurhcareorderer.in/orderers/solapurhcareorderer.in/tls/server.crt
