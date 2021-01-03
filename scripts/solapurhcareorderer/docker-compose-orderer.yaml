@@ -10,7 +10,7 @@ networks:
 
 services:
 
-  solapurhcareorderer.in:
+  orderer.solapurhcareorderer.in:
     container_name: solapurhcareorderer.in
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
@@ -35,8 +35,8 @@ services:
     command: orderer
     volumes:
         - ../../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-        - ../../organizations/ordererOrganizations/solapurhcareorderer.in/orderers/solapurhcareorderer.in/msp:/var/hyperledger/orderer/msp
-        - ../../organizations/ordererOrganizations/solapurhcareorderer.in/orderers/solapurhcareorderer.in/tls/:/var/hyperledger/orderer/tls
+        - ../../organizations/ordererOrganizations/orderer.solapurhcareorderer.in/orderers/orderer.solapurhcareorderer.in/msp:/var/hyperledger/orderer/msp
+        - ../../organizations/ordererOrganizations/orderer.solapurhcareorderer.in/orderers/orderer.solapurhcareorderer.in/tls/:/var/hyperledger/orderer/tls
         - solapurhcareorderer.in:/var/hyperledger/production/orderer
     ports:
       - 7050:7050

@@ -6,3 +6,5 @@ source ../registerEnroll.sh
 # 2. 
 createOrganization "scsmsr.co.in" "civil" "localhost:8054"
 
+createOrderer "scsmsr.co.in" "civilorderer" "localhost:8054"
+

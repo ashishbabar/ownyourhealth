@@ -25,7 +25,7 @@ Organizations:
         ID: SolapurHealthcareMSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: ../../organizations/ordererOrganizations/solapurhcareorderer.in/msp
+        MSPDir: ../../organizations/ordererOrganizations/orderer.solapurhcareorderer.in/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -42,7 +42,7 @@ Organizations:
                 Rule: "OR('SolapurHealthcareMSP.admin')"
 
         OrdererEndpoints:
-            - solapurhcareorderer.in:7050
+            - orderer.solapurhcareorderer.in:7050
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
@@ -78,6 +78,8 @@ Organizations:
                 Type: Signature
                 Rule: "OR('SCSMSRMSP.peer')"
 
+        OrdererEndpoints:
+            - orderer.scsmsr.co.in:9050
         # leave this flag set to true.
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
@@ -112,6 +114,9 @@ Organizations:
             Endorsement:
                 Type: Signature
                 Rule: "OR('AshwiniHospitalMSP.peer')"
+
+        OrdererEndpoints:
+            - orderer.ashwinihospital.co.in:8050
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
@@ -226,14 +231,25 @@ Orderer: &SolapurHealthcareOrdererDefaults
     OrdererType: etcdraft
 
     Addresses:
-        - solapurhcareorderer.in:7050
+        - orderer.solapurhcareorderer.in:7050
+        - orderer.ashwinihospital.co.in:8050
+        - orderer.scsmsr.co.in:9050
 
     EtcdRaft:
         Consenters:
-        - Host: solapurhcareorderer.in
+        - Host: orderer.solapurhcareorderer.in
           Port: 7050
-          ClientTLSCert: ../../organizations/ordererOrganizations/solapurhcareorderer.in/orderers/solapurhcareorderer.in/tls/server.crt
-          ServerTLSCert: ../../organizations/ordererOrganizations/solapurhcareorderer.in/orderers/solapurhcareorderer.in/tls/server.crt
+          ClientTLSCert: ../../organizations/ordererOrganizations/orderer.solapurhcareorderer.in/orderers/orderer.solapurhcareorderer.in/tls/server.crt
+          ServerTLSCert: ../../organizations/ordererOrganizations/orderer.solapurhcareorderer.in/orderers/orderer.solapurhcareorderer.in/tls/server.crt
+        - Host: orderer.ashwinihospital.co.in
+          Port: 8050
+          ClientTLSCert: ../../organizations/ordererOrganizations/orderer.ashwinihospital.co.in/orderers/orderer.ashwinihospital.co.in/tls/server.crt
+          ServerTLSCert: ../../organizations/ordererOrganizations/orderer.ashwinihospital.co.in/orderers/orderer.ashwinihospital.co.in/tls/server.crt
+        - Host: orderer.scsmsr.co.in
+          Port: 9050
+          ClientTLSCert: ../../organizations/ordererOrganizations/orderer.scsmsr.co.in/orderers/orderer.scsmsr.co.in/tls/server.crt
+          ServerTLSCert: ../../organizations/ordererOrganizations/orderer.scsmsr.co.in/orderers/orderer.scsmsr.co.in/tls/server.crt
+
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s

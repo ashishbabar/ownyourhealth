@@ -1,14 +1,14 @@
-#Bootstrap al peers
+#Bootstrap all peers
 
 #Bootstrap orderer
 cd solapurhcareorderer
 ./bootStrap.sh
 
-#Bootstrap peer
+# Bootstrap peer
 cd ../ashwini
 ./bootStrap.sh
 
-#Bootstrap peer
+# Bootstrap peer
 cd ../civil
 ./bootStrap.sh
 
@@ -29,27 +29,27 @@ cd ../../
 ./network.sh
 
 #Wait for all the service to start
-sleep 20
+# sleep 20
 
 #Create a channel from admin of the peer who have rights
 cd scripts/civil
-./create_channel.sh
+# ./create_channel.sh
 #Peer will join the created channel
-./join_channel.sh
+# ./join_channel.sh
 
 #Another peer will join created channel
 cd ../ashwini
-./join_channel.sh
+# ./join_channel.sh
 
 # Wait 
-sleep 20
+# sleep 20
 
 # Deploy chaincode on peer
-./deploy-chaincode.sh
+# ./deploy-chaincode.sh
 
 cd ../civil
 # Deploy chaincode on peer
-./deploy-chaincode.sh
+# ./deploy-chaincode.sh
 
 # Commit chaincode on peer
-./commit-chaincode.sh
+# ./commit-chaincode.sh

@@ -25,7 +25,7 @@ Organizations:
         ID: SolapurHealthcareMSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: organizations/ordererOrganizations/solapurhcareorderer.in/msp
+        MSPDir: organizations/ordererOrganizations/orderer.solapurhcareorderer.in/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -232,8 +232,8 @@ Orderer: &SolapurHealthcareOrdererDefaults
         Consenters:
         - Host: localhost
           Port: 7050
-          ClientTLSCert: organizations/ordererOrganizations/solapurhcareorderer.in/orderers/solapurhcareorderer.in/tls/server.crt
-          ServerTLSCert: organizations/ordererOrganizations/solapurhcareorderer.in/orderers/solapurhcareorderer.in/tls/server.crt
+          ClientTLSCert: organizations/ordererOrganizations/orderer.solapurhcareorderer.in/orderers/orderer.solapurhcareorderer.in/tls/server.crt
+          ServerTLSCert: organizations/ordererOrganizations/orderer.solapurhcareorderer.in/orderers/orderer.solapurhcareorderer.in/tls/server.crt
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s

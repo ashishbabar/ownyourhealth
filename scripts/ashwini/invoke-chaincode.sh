@@ -1,8 +1,8 @@
 export CORE_PEER_TLS_ENABLED=true
 export FABRIC_CFG_PATH=${PWD}
 export CHANNEL_NAME=general-medicine-channel
-export ORDERER_CA=${PWD}/../../organizations/ordererOrganizations/solapurhcareorderer.in/orderers/solapurhcareorderer.in/msp/tlscacerts/tlsca.solapurhcareorderer.in-cert.pem
-ASHWINI_CA=${PWD}/../../organizations/peerOrganizations/ashwinihospital.co.in/peers/ashwinihospital.co.in/tls/ca.crt
+export ORDERER_CA=${PWD}/../../organizations/ordererOrganizations/orderer.ashwinihospital.co.in/orderers/orderer.ashwinihospital.co.in/msp/tlscacerts/tlsca.orderer.ashwinihospital.co.in-cert.pem
+export ASHWINI_CA=${PWD}/../../organizations/peerOrganizations/ashwinihospital.co.in/peers/ashwinihospital.co.in/tls/ca.crt
 CIVIL_CA=${PWD}/../../organizations/peerOrganizations/scsmsr.co.in/peers/scsmsr.co.in/tls/ca.crt
 
 export CORE_PEER_LOCALMSPID="AshwiniHospitalMSP"

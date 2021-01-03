@@ -1,28 +1,23 @@
 export IMAGE_TAG=latest
 
 cd scripts/solapurhcareorderer/ca
-docker-compose -f docker-compose-ca.yaml down -v
+docker-compose -f docker-compose-ca.yaml stop
+docker-compose -f docker-compose-ca.yaml rm -f
 
 cd ../../civil/ca
-docker-compose -f docker-compose-ca.yaml down -v
+docker-compose -f docker-compose-ca.yaml stop
+docker-compose -f docker-compose-ca.yaml rm -f
 
 cd ../../ashwini/ca
-docker-compose -f docker-compose-ca.yaml down -v
+docker-compose -f docker-compose-ca.yaml down
+# docker-compose -f docker-compose-ca.yaml rm -f
+
 
 cd ../../../
 
 sudo rm organizations/* -rf
 
 pwd 
-cd scripts/solapurhcareorderer/ca
-docker-compose -f docker-compose-ca.yaml up -d
-
-cd ../../civil/ca
-docker-compose -f docker-compose-ca.yaml up -d
-
-cd ../../ashwini/ca
-docker-compose -f docker-compose-ca.yaml up -d
-
-cd ../../../
+./ca1.sh start
 
 sudo chown ashish:ashish organizations -R

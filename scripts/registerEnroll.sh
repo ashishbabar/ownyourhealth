@@ -20,7 +20,7 @@ function createOrganization() {
   #  rm -rf $FABRIC_CA_CLIENT_HOME/fabric-ca-client-config.yaml
   #  rm -rf $FABRIC_CA_CLIENT_HOME/msp
 
-  set -x
+  set -x    
   fabric-ca-client enroll -u https://admin:adminpw@${3} --caname ca.${1} --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
   { set +x; } 2>/dev/null
 
@@ -105,11 +105,11 @@ function createOrganization() {
 
 function createOrderer() {
   export FABRIC_ORG_HOME=${PWD}/../../organizations
-
+  ORDERER_NAME=orderer.${1}
   infoln "Enroll the CA admin"
-  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${1}
+  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}
 
-  export FABRIC_CA_CLIENT_HOME=${FABRIC_ORG_HOME}/ordererOrganizations/${1}
+  export FABRIC_CA_CLIENT_HOME=${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}
   #  rm -rf $FABRIC_CA_CLIENT_HOME/fabric-ca-client-config.yaml
   #  rm -rf $FABRIC_CA_CLIENT_HOME/msp
 
@@ -130,7 +130,7 @@ function createOrderer() {
     OrganizationalUnitIdentifier: admin
   OrdererOUIdentifier:
     Certificate: cacerts/'${3//:/-}'-ca-'${1//./-}'.pem
-    OrganizationalUnitIdentifier: orderer' >${FABRIC_ORG_HOME}/ordererOrganizations/${1}/msp/config.yaml
+    OrganizationalUnitIdentifier: orderer' >${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/msp/config.yaml
 
   infoln "Register orderer"
   set -x
@@ -142,41 +142,41 @@ function createOrderer() {
   fabric-ca-client register --caname ca.${1} --id.name ${2}ordererAdmin --id.secret ${2}ordererAdminpw --id.type admin --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers
-  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}
+  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers
+  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}
 
-  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}
+  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}
 
   infoln "Generate the orderer msp"
   set -x
-  fabric-ca-client enroll -u https://${2}orderer:${2}ordererpw@${3} --caname ca.${1} -M ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/msp --csr.hosts ${1} --csr.hosts localhost --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
+  fabric-ca-client enroll -u https://${2}orderer:${2}ordererpw@${3} --caname ca.${1} -M ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/msp --csr.hosts ${ORDERER_NAME} --csr.hosts localhost --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/msp/config.yaml ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/msp/config.yaml
+  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/msp/config.yaml ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/msp/config.yaml
 
   infoln "Generate the orderer-tls certificates"
   set -x
-  fabric-ca-client enroll -u https://${2}orderer:${2}ordererpw@${3} --caname ca.${1} -M ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/tls --enrollment.profile tls --csr.hosts ${1} --csr.hosts localhost --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
+  fabric-ca-client enroll -u https://${2}orderer:${2}ordererpw@${3} --caname ca.${1} -M ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls --enrollment.profile tls --csr.hosts ${ORDERER_NAME} --csr.hosts localhost --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/tls/tlscacerts/* ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/tls/ca.crt
-  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/tls/signcerts/* ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/tls/server.crt
-  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/tls/keystore/* ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/tls/server.key
+  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/tlscacerts/* ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/ca.crt
+  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/signcerts/* ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/server.crt
+  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/keystore/* ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/server.key
 
-  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/msp/tlscacerts
-  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/tls/tlscacerts/* ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/msp/tlscacerts/tlsca.${1}-cert.pem
+  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/msp/tlscacerts
+  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/tlscacerts/* ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/msp/tlscacerts/tlsca.${ORDERER_NAME}-cert.pem
 
-  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/msp/tlscacerts
-  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/orderers/${1}/tls/tlscacerts/* ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/msp/tlscacerts/tlsca.${1}-cert.pem
+  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/msp/tlscacerts
+  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/tlscacerts/* ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/msp/tlscacerts/tlsca.${ORDERER_NAME}-cert.pem
 
-  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/users
-  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/users/Admin@${1}
+  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/users
+  mkdir -p ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/users/Admin@${ORDERER_NAME}
 
   infoln "Generate the admin msp"
   set -x
-  fabric-ca-client enroll -u https://${2}ordererAdmin:${2}ordererAdminpw@${3} --caname ca.${1} -M ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/users/Admin@${1}/msp --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
+  fabric-ca-client enroll -u https://${2}ordererAdmin:${2}ordererAdminpw@${3} --caname ca.${1} -M ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/users/Admin@${ORDERER_NAME}/msp --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/msp/config.yaml ${FABRIC_ORG_HOME}/ordererOrganizations/${1}/users/Admin@${1}/msp/config.yaml
+  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/msp/config.yaml ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/users/Admin@${ORDERER_NAME}/msp/config.yaml
 
 }
