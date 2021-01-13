@@ -13,7 +13,7 @@ export CORE_PEER_TLS_ROOTCERT_FILE=$CIVIL_CA
 export CORE_PEER_MSPCONFIGPATH=${PWD}/../../organizations/peerOrganizations/scsmsr.co.in/users/Admin@scsmsr.co.in/msp
 export CORE_PEER_ADDRESS=localhost:7051
 
-peer channel join -b ../../channel-artifacts/$CHANNEL_NAME.block >&log.txt
+peer channel join -b ../../channel-artifacts/$CHANNEL_NAME.block >&log/channel-join-log.txt
 
 # peer channel create \
 # -o localhost:7050 \

@@ -1,1 +1,1 @@
-Error: failed to endorse proposal: rpc error: code = Unknown desc = error validating proposal: access denied: channel [general-medicine-channel] creator org [SCSMSRMSP]
+[34m2021-01-12 16:58:22.544 IST [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 001[0m Chaincode invoke successful. result: status:200 payload:"value1" 

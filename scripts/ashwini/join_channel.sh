@@ -13,7 +13,7 @@ export CORE_PEER_TLS_ROOTCERT_FILE=$ASHWINI_CA
 export CORE_PEER_MSPCONFIGPATH=${PWD}/../../organizations/peerOrganizations/ashwinihospital.co.in/users/Admin@ashwinihospital.co.in/msp
 export CORE_PEER_ADDRESS=localhost:9051
 
-peer channel join -b ../../channel-artifacts/$CHANNEL_NAME.block >&log.txt
+peer channel join -b ../../channel-artifacts/$CHANNEL_NAME.block >&log/channel-join-log.txt
 
 # peer channel create \
 # -o localhost:7050 \

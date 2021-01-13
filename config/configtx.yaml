@@ -25,7 +25,7 @@ Organizations:
         ID: SolapurHealthcareMSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: organizations/ordererOrganizations/orderer.solapurhcareorderer.in/msp
+        MSPDir: ../organizations/ordererOrganizations/orderer.solapurhcareorderer.in/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -33,33 +33,55 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('OrdererMSP.member')"
+                Rule: "OR('SolapurHealthcareMSP.member')"
             Writers:
                 Type: Signature
-                Rule: "OR('OrdererMSP.member')"
+                Rule: "OR('SolapurHealthcareMSP.member')"
             Admins:
                 Type: Signature
-                Rule: "OR('OrdererMSP.admin')"
+                Rule: "OR('SolapurHealthcareMSP.admin')"
 
         OrdererEndpoints:
-            - solapurhcareorderer.in:7050
+            - orderer.solapurhcareorderer.in:7050
 
-        AnchorPeers:
-            # AnchorPeers defines the location of peers which can be used
-            # for cross org gossip communication.  Note, this value is only
-            # encoded in the genesis block in the Application section context
-            - Host: general_medicine.solapurhealthcare.co.in
-              Port: 7051
+        # AnchorPeers:
+        #     # AnchorPeers defines the location of peers which can be used
+        #     # for cross org gossip communication.  Note, this value is only
+        #     # encoded in the genesis block in the Application section context
+        #     - Host: solapurhealthcare.co.in
+        #       Port: 7050
+
+    - &SCSMSROrderer
+        Name: SCSMSROrderer
+        
+        ID: SCSMSROrdererMSP
+
+        MSPDir: ../organizations/ordererOrganizations/orderer.scsmsr.co.in/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('SCSMSROrdererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('SCSMSROrdererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('SCSMSROrdererMSP.admin')"
+ 
+        OrdererEndpoints:
+            - orderer.scsmsr.co.in:9050       
+
 
     - &SCSMSR
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: SCSMSR
+        Name: SCSMSRMSP
 
         # ID to load the MSP definition as
         ID: SCSMSRMSP
 
-        MSPDir: organizations/peerOrganizations/scsmsr.co.in/msp
+        MSPDir: ../organizations/peerOrganizations/scsmsr.co.in/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -83,18 +105,40 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: general_medicine.scsmsr.co.in
+            - Host: scsmsr.co.in
               Port: 7051
+
+    - &AshwiniHospitalOrderer
+
+        Name: AshwiniHospitalOrderer
+
+        ID: AshwiniHospitalOrdererMSP
+        
+        MSPDir: ../organizations/ordererOrganizations/orderer.ashwinihospital.co.in/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('AshwiniHospitalOrdererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('AshwiniHospitalOrdererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('AshwiniHospitalOrdererMSP.admin')"
+ 
+        OrdererEndpoints:
+            - orderer.ashwinihospital.co.in:8050
 
     - &AshwiniHospital
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: AshwiniHospital
+        Name: AshwiniHospitalMSP
 
         # ID to load the MSP definition as
         ID: AshwiniHospitalMSP
 
-        MSPDir: organizations/peerOrganizations/ashwinihospital.co.in/msp
+        MSPDir: ../organizations/peerOrganizations/ashwinihospital.co.in/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -117,7 +161,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: general.ashwinihospital.co.in
+            - Host: ashwinihospital.co.in
               Port: 9051
 
 ################################################################################
@@ -226,14 +270,24 @@ Orderer: &SolapurHealthcareOrdererDefaults
     OrdererType: etcdraft
 
     Addresses:
-        - localhost:7050
+        - orderer.solapurhcareorderer.in:7050
+        - orderer.ashwinihospital.co.in:8050
+        - orderer.scsmsr.co.in:9050
 
     EtcdRaft:
         Consenters:
-        - Host: localhost
+        - Host: orderer.solapurhcareorderer.in
           Port: 7050
-          ClientTLSCert: organizations/ordererOrganizations/orderer.solapurhcareorderer.in/orderers/orderer.solapurhcareorderer.in/tls/server.crt
-          ServerTLSCert: organizations/ordererOrganizations/orderer.solapurhcareorderer.in/orderers/orderer.solapurhcareorderer.in/tls/server.crt
+          ClientTLSCert: ../organizations/ordererOrganizations/orderer.solapurhcareorderer.in/orderers/orderer.solapurhcareorderer.in/tls/server.crt
+          ServerTLSCert: ../organizations/ordererOrganizations/orderer.solapurhcareorderer.in/orderers/orderer.solapurhcareorderer.in/tls/server.crt
+        - Host: orderer.ashwinihospital.co.in
+          Port: 8050
+          ClientTLSCert: ../organizations/ordererOrganizations/orderer.ashwinihospital.co.in/orderers/orderer.ashwinihospital.co.in/tls/server.crt
+          ServerTLSCert: ../organizations/ordererOrganizations/orderer.ashwinihospital.co.in/orderers/orderer.ashwinihospital.co.in/tls/server.crt
+        - Host: orderer.scsmsr.co.in
+          Port: 9050
+          ClientTLSCert: ../organizations/ordererOrganizations/orderer.scsmsr.co.in/orderers/orderer.scsmsr.co.in/tls/server.crt
+          ServerTLSCert: ../organizations/ordererOrganizations/orderer.scsmsr.co.in/orderers/orderer.scsmsr.co.in/tls/server.crt
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s
@@ -256,7 +310,6 @@ Orderer: &SolapurHealthcareOrdererDefaults
     # Organizations is the list of orgs which are defined as participants on
     # the orderer side of the network
     Organizations:
-
     # Policies defines the set of policies at this level of the config tree
     # For Orderer policies, their canonical path is
     #   /Channel/Orderer/<PolicyName>
@@ -324,6 +377,8 @@ Profiles:
             <<: *SolapurHealthcareOrdererDefaults
             Organizations:
                 - *SolapurHealthcare
+                - *SCSMSROrderer
+                - *AshwiniHospitalOrderer
             Capabilities:
                 <<: *SolapurHealthcareOrdererCapabilities
         Consortiums:

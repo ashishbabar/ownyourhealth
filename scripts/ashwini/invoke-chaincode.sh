@@ -1,7 +1,7 @@
 export CORE_PEER_TLS_ENABLED=true
 export FABRIC_CFG_PATH=${PWD}
 export CHANNEL_NAME=general-medicine-channel
-export ORDERER_CA=${PWD}/../../organizations/ordererOrganizations/orderer.ashwinihospital.co.in/orderers/orderer.ashwinihospital.co.in/msp/tlscacerts/tlsca.orderer.ashwinihospital.co.in-cert.pem
+export ORDERER_CA=${PWD}/../../organizations/ordererOrganizations/orderer.solapurhcareorderer.in/orderers/orderer.solapurhcareorderer.in/msp/tlscacerts/tlsca.orderer.solapurhcareorderer.in-cert.pem
 export ASHWINI_CA=${PWD}/../../organizations/peerOrganizations/ashwinihospital.co.in/peers/ashwinihospital.co.in/tls/ca.crt
 CIVIL_CA=${PWD}/../../organizations/peerOrganizations/scsmsr.co.in/peers/scsmsr.co.in/tls/ca.crt
 
@@ -36,7 +36,7 @@ fcn_call='{"Args":[]}'
 
 
 peer chaincode invoke \
--o localhost:7050 --ordererTLSHostnameOverride solapurhcareorderer.in \
+-o localhost:7050 --ordererTLSHostnameOverride orderer.solapurhcareorderer.in \
 --tls --cafile $ORDERER_CA \
 -C $CHANNEL_NAME \
 -n ${CC_NAME} \
@@ -44,7 +44,7 @@ peer chaincode invoke \
 --tlsRootCertFiles $ASHWINI_CA \
 --peerAddresses localhost:7051  \
 --tlsRootCertFiles $CIVIL_CA \
---isInit -c ${fcn_call} >&log.txt
+--isInit -c ${fcn_call} >&log/invoke-log.txt
 
 
 

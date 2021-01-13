@@ -1,15 +1,29 @@
 export IMAGE_TAG=latest
 
 if [[ $1 = "stop" ]]; then
-MODE="down"
-else
-MODE="up -d -V"
-fi
 cd scripts/solapurhcareorderer/
-docker-compose -f docker-compose-orderer.yaml $MODE
+docker-compose -f docker-compose-orderer.yaml stop
+docker-compose -f docker-compose-orderer.yaml rm -f
 
 cd ../civil/
-docker-compose -f docker-compose-civil.yaml $MODE
+docker-compose -f docker-compose-civil.yaml stop 
+docker-compose -f docker-compose-civil.yaml rm -f 
 
 cd ../ashwini/
-docker-compose -f docker-compose-ashwini.yaml $MODE
+docker-compose -f docker-compose-ashwini.yaml stop
+docker-compose -f docker-compose-ashwini.yaml rm -f
+
+else
+cd scripts/solapurhcareorderer/
+docker-compose -f docker-compose-orderer.yaml up -d
+sleep 4
+cd ../civil/
+docker-compose -f docker-compose-civil.yaml up -d scsmsr.co.in
+docker-compose -f docker-compose-civil.yaml up -d orderer.scsmsr.co.in
+sleep 4
+
+cd ../ashwini/
+docker-compose -f docker-compose-ashwini.yaml up -d ashwinihospital.co.in
+docker-compose -f docker-compose-ashwini.yaml up -d orderer.ashwinihospital.co.in
+fi
+

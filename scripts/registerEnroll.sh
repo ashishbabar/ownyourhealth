@@ -66,9 +66,10 @@ function createOrganization() {
 
   infoln "Generate the hospital tls certificates"
   set -x
-  fabric-ca-client enroll -u https://${2}:${2}pw@${3} --caname ca.${1} -M ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls --enrollment.profile tls --csr.hosts ${1} --csr.hosts localhost --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
+  fabric-ca-client enroll -u https://${2}:${2}pw@${3} --caname ca.${1} -M ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls --enrollment.profile tls --csr.hosts ${1} --csr.hosts localhost --csr.hosts 127.0.0.1 --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
   { set +x; } 2>/dev/null
 
+  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/tlsintermediatecerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/int-ca.crt
   cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/tlscacerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/ca.crt
   cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/signcerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/server.crt
   cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/keystore/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/server.key
@@ -156,9 +157,10 @@ function createOrderer() {
 
   infoln "Generate the orderer-tls certificates"
   set -x
-  fabric-ca-client enroll -u https://${2}orderer:${2}ordererpw@${3} --caname ca.${1} -M ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls --enrollment.profile tls --csr.hosts ${ORDERER_NAME} --csr.hosts localhost --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
+  fabric-ca-client enroll -u https://${2}orderer:${2}ordererpw@${3} --caname ca.${1} -M ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls --enrollment.profile tls --csr.hosts ${ORDERER_NAME} --csr.hosts localhost --csr.hosts 127.0.0.1 --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
   { set +x; } 2>/dev/null
 
+  cp ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/tlsintermediatecerts/* ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/int-ca.crt
   cp ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/tlscacerts/* ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/ca.crt
   cp ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/signcerts/* ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/server.crt
   cp ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/keystore/* ${FABRIC_ORG_HOME}/ordererOrganizations/${ORDERER_NAME}/orderers/${ORDERER_NAME}/tls/server.key

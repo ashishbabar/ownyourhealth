@@ -24,7 +24,7 @@ fcn_call='{"Args":["Create","key1","value1"]}'
 
 
 peer chaincode invoke \
--o localhost:7050 --ordererTLSHostnameOverride solapurhcareorderer.in \
+-o localhost:7050 --ordererTLSHostnameOverride orderer.solapurhcareorderer.in \
 --tls --cafile $ORDERER_CA \
 -C $CHANNEL_NAME \
 -n ${CC_NAME} \
@@ -32,7 +32,7 @@ peer chaincode invoke \
 --tlsRootCertFiles $ASHWINI_CA \
 --peerAddresses localhost:7051  \
 --tlsRootCertFiles $CIVIL_CA \
--c ${fcn_call} >&log.txt
+-c ${fcn_call} >&log/invoke-create-log.txt
 
 
 sleep 20
@@ -41,7 +41,7 @@ sleep 20
 fcn_call='{"Args":["Read","key1"]}'
 
 peer chaincode invoke \
--o localhost:7050 --ordererTLSHostnameOverride solapurhcareorderer.in \
+-o localhost:7050 --ordererTLSHostnameOverride orderer.solapurhcareorderer.in \
 --tls --cafile $ORDERER_CA \
 -C $CHANNEL_NAME \
 -n ${CC_NAME} \
@@ -49,5 +49,5 @@ peer chaincode invoke \
 --tlsRootCertFiles $ASHWINI_CA \
 --peerAddresses localhost:7051  \
 --tlsRootCertFiles $CIVIL_CA \
--c ${fcn_call} >&log.txt
+-c ${fcn_call} >&log/invoke-read-log.txt
 

@@ -20,10 +20,11 @@ CC_END_POLICY="NA"
 CC_COLL_CONFIG="NA"
 INIT_REQUIRED="--init-required"
 
-peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${CC_VERSION} --sequence ${CC_SEQUENCE} ${INIT_REQUIRED} ${CC_END_POLICY} ${CC_COLL_CONFIG} --output json >&log.txt
+peer lifecycle chaincode checkcommitreadiness --channelID $CHANNEL_NAME --name ${CC_NAME} --version ${CC_VERSION} --sequence ${CC_SEQUENCE} ${INIT_REQUIRED} ${CC_END_POLICY} ${CC_COLL_CONFIG} --output json >&log/commit-ready-log.txt
 
 peer lifecycle chaincode commit \
--o localhost:7050 \--ordererTLSHostnameOverride solapurhcareorderer.in \
+-o localhost:7050 \
+--ordererTLSHostnameOverride orderer.solapurhcareorderer.in \
 --tls --cafile $ORDERER_CA \
 --channelID $CHANNEL_NAME --name ${CC_NAME}  \
 --peerAddresses localhost:7051  \
