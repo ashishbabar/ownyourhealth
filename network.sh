@@ -19,11 +19,11 @@ docker-compose -f docker-compose-orderer.yaml up -d
 sleep 4
 cd ../civil/
 docker-compose -f docker-compose-civil.yaml up -d scsmsr.co.in
-docker-compose -f docker-compose-civil.yaml up -d orderer.scsmsr.co.in
+docker-compose -f docker-compose-civil.yaml up -d orderer.scsmsr.co.in1
 sleep 4
 
 cd ../ashwini/
 docker-compose -f docker-compose-ashwini.yaml up -d ashwinihospital.co.in
-docker-compose -f docker-compose-ashwini.yaml up -d orderer.ashwinihospital.co.in
+docker-compose -f docker-compose-ashwini.yaml up -d orderer.ashwinihospital.co.in1
 fi
 

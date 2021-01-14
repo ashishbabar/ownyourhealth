@@ -18,6 +18,8 @@ CC_INIT_FCN="NA"
 CC_END_POLICY="NA"
 CC_COLL_CONFIG="NA"
 INIT_REQUIRED="--init-required"
+GREEN='\033[0;32m'
+NC='\033[0m'
 
 cd ../../chaincode/simple-contract
 
@@ -31,22 +33,27 @@ go get -u github.com/hyperledger/fabric-contract-api-go
 go mod vendor
 go build
 
-echo "Fabric CFG Path is $FABRIC_CFG_PATH"
-
 cd ../../scripts/civil
+echo ""
+echo "-------------------------------------------"
+echo "Deploying chaincode for Civil Hospital."
+echo "-------------------------------------------"
 
-env | grep CORE
-
-echo $CORE_PEER_LOCALMSPID
-
+printf "Packaging chaincode to ${CC_SRC_PATH} ... "
 peer lifecycle chaincode package ${CC_NAME}.tar.gz --path ${CC_SRC_PATH} --lang ${CC_RUNTIME_LANGUAGE} --label ${CC_NAME}_${CC_VERSION} >&log/package-log.txt
+echo -e "${GREEN}done${NC}"
 
+printf "Installing chaincode ${CC_NAME}.tar.gz ... "
 peer lifecycle chaincode install ${CC_NAME}.tar.gz >&log/install-log.txt
+echo -e "${GREEN}done${NC}"
 
+printf "Querying  chaincode ${CC_NAME} ... "
 peer lifecycle chaincode queryinstalled >&log/query-log.txt
+echo -e "${GREEN}done${NC}"
 
 PACKAGE_ID=$(sed -n "/${CC_NAME}_${CC_VERSION}/{s/^Package ID: //; s/, Label:.*$//; p;}" log/query-log.txt)
 
+printf "Approving chaincode for Package ID $PACKAGE_ID ... "
 sleep 5
 
 peer lifecycle chaincode approveformyorg \
@@ -58,4 +65,4 @@ peer lifecycle chaincode approveformyorg \
 --version ${CC_VERSION} \
 --package-id ${PACKAGE_ID} \
 --sequence ${CC_SEQUENCE} ${INIT_REQUIRED} ${CC_END_POLICY} ${CC_COLL_CONFIG} >&log/approve-log.txt
-
+echo -e "${GREEN}done${NC}"
