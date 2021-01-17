@@ -35,15 +35,8 @@ cd scsmsr.co.in
 
 export FABRIC_CA_CLIENT_HOME=${PWD}
 
-# cp ../solapurhcareorderer.in/tls-cert.pem tls-cert.pem
-
-pwd 
 
 echo 'Enrolling....'
-# ~/go/bin/fabric-ca-client enroll \
-# -u https://admin:adminpw@localhost:7054 \
-# --caname ca.solapurhcareorderer.in \
-# --tls.certfiles ../solapurhcareorderer.in/tls-cert.pem
 
 ~/go/bin/fabric-ca-client enroll \
 -m admin \
@@ -60,31 +53,8 @@ echo 'Registering....'
 -u https://localhost:7054 \
 --tls.certfiles ../solapurhcareorderer.in/tls-cert.pem
 
-# echo 'Enrolling TLS....'
-# ~/go/bin/fabric-ca-client enroll \
-# -u https://admin:adminpw@localhost:7054 \
-# --caname ca.solapurhcareorderer.in \
-# -M tls \
-# --csr.hosts 'ca.scsmsr.co.in' \
-# --csr.hosts localhost \
-# --tls.certfiles ../solapurhcareorderer.in/tls-cert.pem
 
 cp ../solapurhcareorderer.in/tls-cert.pem root-ca-tls-cert.pem
-# # cp msp/signcerts/cert.pem ca-cert.pem
-# cp msp/cacerts/* msp/ca.crt
-# cp msp/signcerts/* msp/server.crt
-# cp msp/keystore/* msp/server.key
-
-# cp tls/cacerts/* tls/ca.crt
-# cp tls/signcerts/* tls/server.crt
-# # cp tls/signcerts/* tls-cert.pem
-# cp tls/keystore/* tls/server.key
-# cp tls/keystore/* msp/keystore/*
-
-# ~/go/bin/fabric-ca-server init \
-# -b admin:adminpw \
-# -u https://admin.civilCA:admin.civilCApw@localhost:7054 \
-# --tls.certfile tls/server.crt
 
 cd ../../../scripts/civil/ca
 docker-compose -f docker-compose-civil-int-ca.yaml up -d
@@ -123,29 +93,7 @@ echo 'Registering....'
 -u https://localhost:7054 \
 --tls.certfiles ../solapurhcareorderer.in/tls-cert.pem
 
-# echo 'Enrolling TLS....'
-# ~/go/bin/fabric-ca-client enroll \
-# -u https://admin:adminpw@localhost:7054 \
-# --caname ca.solapurhcareorderer.in \
-# -M tls \
-# --csr.hosts ca.ashwinihospital.co.in \
-# --csr.hosts localhost \
-# --tls.certfiles ../solapurhcareorderer.in/tls-cert.pem
-
 cp ../solapurhcareorderer.in/tls-cert.pem root-ca-tls-cert.pem
-
-# cp msp/cacerts/* msp/ca.crt
-# cp msp/signcerts/* msp/server.crt
-# cp msp/keystore/* msp/server.key
-
-# cp tls/cacerts/* tls/ca.crt
-# cp tls/signcerts/* tls/server.crt
-# cp tls/keystore/* tls/server.key
-# cp tls/keystore/* msp/keystore/*
-
-# ~/go/bin/fabric-ca-server init \
-# -b admin:adminpw \
-# -u https://admin.ashwiniCA:admin.ashwiniCApw@localhost:7054 \
 
 cd ../../../scripts/ashwini/ca
 docker-compose -f docker-compose-ashwini-int-ca.yaml up -d
