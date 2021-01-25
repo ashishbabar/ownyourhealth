@@ -1,3 +1,4 @@
+#!/bin/bash
 export IMAGE_TAG=latest
 
 if [[ $1 = "stop" ]]; then

@@ -1,3 +1,4 @@
+#!/bin/bash
 export CORE_PEER_TLS_ENABLED=true
 export FABRIC_CFG_PATH=${PWD}
 

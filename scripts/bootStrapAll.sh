@@ -1,3 +1,4 @@
+#!/bin/bash
 #Bootstrap all peers
 
 #Bootstrap orderer

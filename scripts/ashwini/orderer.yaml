@@ -22,11 +22,14 @@ General:
     TLS:
         Enabled: true
         # PrivateKey governs the file location of the private key of the TLS certificate.
-        PrivateKey: ../../organizations/ordererOrganizations/orderer.ashwinihospital.co.in/orderers/orderer.ashwinihospital.co.in/tls/server.key
+        # PrivateKey: ../../organizations/ordererOrganizations/orderer.ashwinihospital.co.in/orderers/orderer.ashwinihospital.co.in/tls/server.key
         # Certificate governs the file location of the server TLS certificate.
-        Certificate: ../../organizations/ordererOrganizations/orderer.ashwinihospital.co.in/orderers/orderer.ashwinihospital.co.in/tls/server.crt
+        PrivateKey: tls/server.key
+        # Certificate: ../../organizations/ordererOrganizations/orderer.ashwinihospital.co.in/orderers/orderer.ashwinihospital.co.in/tls/server.crt
+        Certificate: tls/server.crt
         RootCAs:
-          - ../../organizations/ordererOrganizations/orderer.ashwinihospital.co.in/orderers/orderer.ashwinihospital.co.in/tls/ca.crt
+        #   - ../../organizations/ordererOrganizations/orderer.ashwinihospital.co.in/orderers/orderer.ashwinihospital.co.in/tls/ca.crt
+            - tls/ca.crt
         ClientAuthRequired: false
         ClientRootCAs:
     # Keepalive settings for the GRPC server.

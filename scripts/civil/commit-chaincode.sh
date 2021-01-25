@@ -1,5 +1,7 @@
+#!/bin/bash
 export CORE_PEER_TLS_ENABLED=true
-export FABRIC_CFG_PATH=${PWD}
+export FABRIC_CFG_PATH=${PWD}/../../config
+
 CHANNEL_NAME=general-medicine-channel
 export ORDERER_CA=${PWD}/../../organizations/ordererOrganizations/orderer.solapurhcareorderer.in/orderers/orderer.solapurhcareorderer.in/msp/tlscacerts/tlsca.orderer.solapurhcareorderer.in-cert.pem
 CIVIL_CA=${PWD}/../../organizations/peerOrganizations/scsmsr.co.in/peers/scsmsr.co.in/tls/ca.crt
