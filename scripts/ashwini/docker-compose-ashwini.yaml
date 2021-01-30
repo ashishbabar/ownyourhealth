@@ -10,6 +10,21 @@ networks:
    name: healthcare_network
 
 services:
+  couchdb.ashwinihospital.co.in:
+    container_name: couchdb.ashwinihospital.co.in
+    image: couchdb:3.1.1
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=ashiwinicouchdbadmin
+      - COUCHDB_PASSWORD=ashiwinicouchdbadminpw
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+      - 5984:5984
+    networks:
+      - healthcare_network
+
   ashwinihospital.co.in:
     container_name: ashwinihospital.co.in
     image: hyperledger/fabric-peer:$IMAGE_TAG
@@ -36,6 +51,10 @@ services:
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=ashwinihospital.co.in:9051
       - CORE_PEER_GOSSIP_BOOTSTRAP=ashwinihospital.co.in:9051
       - CORE_PEER_LOCALMSPID=AshwiniHospitalMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.ashwinihospital.co.in:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=ashiwinicouchdbadmin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=ashiwinicouchdbadminpw
     volumes:
         - /var/run/:/host/var/run/
         - ../../organizations/peerOrganizations/ashwinihospital.co.in/peers/ashwinihospital.co.in/msp:/etc/hyperledger/fabric/msp
@@ -43,6 +62,8 @@ services:
         - ashwinihospital.co.in:/var/hyperledger/production
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
+    depends_on: 
+      - couchdb.ashwinihospital.co.in
     ports:
       - 9051:9051
     networks:

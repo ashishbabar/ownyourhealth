@@ -10,6 +10,21 @@ networks:
    name: healthcare_network
 
 services:
+  couchdb.scsmsr.co.in:
+    container_name: couchdb.scsmsr.co.in
+    image: couchdb:3.1.1
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=civilcouchdbadmin
+      - COUCHDB_PASSWORD=civilcouchdbadminpw
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+      - 7984:5984
+    networks:
+      - healthcare_network
+
   scsmsr.co.in:
     container_name: scsmsr.co.in
     image: hyperledger/fabric-peer:$IMAGE_TAG
@@ -36,6 +51,10 @@ services:
       - CORE_PEER_GOSSIP_BOOTSTRAP=scsmsr.co.in:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=scsmsr.co.in:7051
       - CORE_PEER_LOCALMSPID=SCSMSRMSP
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.scsmsr.co.in:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=civilcouchdbadmin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=civilcouchdbadminpw
     volumes:
         - /var/run/:/host/var/run/
         - ../../organizations/peerOrganizations/scsmsr.co.in/peers/scsmsr.co.in/msp:/etc/hyperledger/fabric/msp
@@ -43,6 +62,8 @@ services:
         - scsmsr.co.in:/var/hyperledger/production
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
+    depends_on:
+      - couchdb.scsmsr.co.in
     ports:
       - 7051:7051
     networks:

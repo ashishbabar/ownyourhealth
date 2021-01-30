@@ -57,9 +57,13 @@ cd ../civil
 # Commit chaincode on peer
 ./commit-chaincode.sh
 
+sleep 5 
+
 cd ../ashwini
 
 ./invoke-chaincode.sh
+
+sleep 5 
 
 cd ../civil
 
