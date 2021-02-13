@@ -1,12 +1,26 @@
 #!/bin/bash
+ORG=scsmsr.co.in
+PEER=opd.scsmsr.co.in
+P0PORT=7051
+ANCHORPEER=anchor.scsmsr.co.in
+ANCHORPOPORT=7053
+CAPORT=8054
+MSP="SCSMSRMSP"
+CA="ca.scsmsr.co.in"
+PEERPEM=../../organizations/peerOrganizations/${ORG}/tlsca/tlsca.${ORG}-cert.pem
+CAPEM=../../organizations/peerOrganizations/${ORG}/ca/${ORG}-cert.pem
 
 source ../registerEnroll.sh
 
-createOrganization "scsmsr.co.in" "civil" "localhost:8054"
+createOrganization ${ORG} "civilpeer" "localhost:8054" "opd.${ORG}"
+createOrganization ${ORG} "civilanchor" "localhost:8054" "anchor.${ORG}"
 
-# cp ../../organizations/fabric-ca/scsmsr-ca-chain.pem ../../organizations/peerOrganizations/scsmsr.co.in/peers/scsmsr.co.in/tls/scsmsr-ca-chain.pem
-# cp ../../organizations/fabric-ca/ashwinihospital-ca-chain.pem ../../organizations/peerOrganizations/scsmsr.co.in/peers/scsmsr.co.in/tls/ashwinihospital-ca-chain.pem
 
-createOrderer "scsmsr.co.in" "civilorderer" "localhost:8054"
-# cp ../../organizations/fabric-ca/scsmsr-ca-chain.pem ../../organizations/ordererOrganizations/orderer.scsmsr.co.in/orderers/orderer.scsmsr.co.in/tls/scsmsr-ca-chain.pem
-# cp ../../organizations/fabric-ca/ashwinihospital-ca-chain.pem ../../organizations/ordererOrganizations/orderer.scsmsr.co.in/orderers/orderer.scsmsr.co.in/tls/ashwinihospital-ca-chain.pem
+createOrderer ${ORG} "civilorderer" "localhost:8054"
+
+# Generate ccp configuration file
+source ../generatePeerConfig.sh
+
+
+echo "$(json_ccp $ORG $P0PORT $CAPORT $MSP $CA $PEER $ANCHORPEER $ANCHORPOPORT $PEERPEM $CAPEM )" > ../../organizations/peerOrganizations/${ORG}/${PEER}.json
+echo "$(yaml_ccp $ORG $P0PORT $CAPORT $MSP $CA $PEER $ANCHORPEER $ANCHORPOPORT $PEERPEM $CAPEM )" > ../../organizations/peerOrganizations/${ORG}/${PEER}.yaml

@@ -55,33 +55,33 @@ function createOrganization() {
   { set +x; } 2>/dev/null
 
   mkdir -p ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers
-  mkdir -p ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}
+  mkdir -p ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}
 
   infoln "Generate the hospital msp"
   set -x
-  fabric-ca-client enroll -u https://${2}:${2}pw@${3} --caname ca.${1} -M ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/msp --csr.hosts ${1} --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
+  fabric-ca-client enroll -u https://${2}:${2}pw@${3} --caname ca.${1} -M ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}/msp --csr.hosts ${4} --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/msp/config.yaml ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/msp/config.yaml
+  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/msp/config.yaml ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}/msp/config.yaml
 
   infoln "Generate the hospital tls certificates"
   set -x
-  fabric-ca-client enroll -u https://${2}:${2}pw@${3} --caname ca.${1} -M ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls --enrollment.profile tls --csr.hosts ${1} --csr.hosts localhost --csr.hosts 127.0.0.1 --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
+  fabric-ca-client enroll -u https://${2}:${2}pw@${3} --caname ca.${1} -M ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}/tls --enrollment.profile tls --csr.hosts ${4} --csr.hosts localhost --csr.hosts 127.0.0.1 --tls.certfiles ${FABRIC_ORG_HOME}/fabric-ca/${1}/tls-cert.pem
   { set +x; } 2>/dev/null
 
-  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/tlsintermediatecerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/int-ca.crt
-  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/tlscacerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/ca.crt
-  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/signcerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/server.crt
-  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/keystore/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/server.key
+  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}/tls/tlsintermediatecerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}/tls/int-ca.crt
+  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}/tls/tlscacerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}/tls/ca.crt
+  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}/tls/signcerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}/tls/server.crt
+  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}/tls/keystore/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}/tls/server.key
 
   mkdir -p ${FABRIC_ORG_HOME}/peerOrganizations/${1}/msp/tlscacerts
-  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/tlscacerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/msp/tlscacerts/ca.crt
+  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}/tls/tlscacerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/msp/tlscacerts/ca.crt
 
   mkdir -p ${FABRIC_ORG_HOME}/peerOrganizations/${1}/tlsca
-  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/tls/tlscacerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/tlsca/tlsca.${1}-cert.pem
+  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}/tls/tlscacerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/tlsca/tlsca.${1}-cert.pem
 
   mkdir -p ${FABRIC_ORG_HOME}/peerOrganizations/${1}/ca
-  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${1}/msp/cacerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/ca/${1}-cert.pem
+  cp ${FABRIC_ORG_HOME}/peerOrganizations/${1}/peers/${4}/msp/cacerts/* ${FABRIC_ORG_HOME}/peerOrganizations/${1}/ca/${1}-cert.pem
 
   mkdir -p ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users
   mkdir -p ${FABRIC_ORG_HOME}/peerOrganizations/${1}/users/${2}User1@${1}

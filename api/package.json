@@ -1,0 +1,16 @@
+{
+    "name": "own-your-health",
+    "version": "1.0.0",
+    "description": "own-your-health application implemented in JavaScript",
+    "engines": {
+        "node": ">=12",
+        "npm": ">=5"
+    },
+    "engineStrict": true,
+    "author": "Ashish",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "fabric-ca-client": "^2.2.0",
+        "fabric-network": "^2.2.0"
+    }
+}

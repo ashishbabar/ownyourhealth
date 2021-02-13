@@ -12,8 +12,34 @@ chaincode/simple-contract/simple-contract
 chaincode/simple-contract/log.txt
 
 scripts/civil/log/*
+scripts/civil/vendor/*
+scripts/civil/go.mod
+scripts/civil/go.sum
+scripts/civil/healthContract.tar.gz
+
 scripts/ashwini/log/*
+scripts/ashwini/vendor/*
+scripts/ashwini/go.mod
+scripts/ashwini/go.sum
+scripts/ashwini/healthContract.tar.gz
+
 scripts/solapurhcareorderer/log/*
+
+api/wallet/*
+api/keystore/*
+api/node_modules/*
+discovery-service/ashwini*
+discovery-service/civil*
+
+chaincode/health-contract/vendor/*
+chaincode/health-contract/go.mod
+chaincode/health-contract/go.sum
+chaincode/health-contract/health-contract
+
+chaincode/simple-contract/vendor/*
+chaincode/simple-contract/go.mod
+chaincode/simple-contract/go.sum
+chaincode/simple-contract/simple-contract
 
 /channel-artifacts
 

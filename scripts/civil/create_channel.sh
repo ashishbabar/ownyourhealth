@@ -4,7 +4,7 @@ export CORE_PEER_TLS_ENABLED=true
 export FABRIC_CFG_PATH=${PWD}/../../config
 
 export ORDERER_CA=${PWD}/../../organizations/ordererOrganizations/orderer.scsmsr.co.in/orderers/orderer.scsmsr.co.in/msp/tlscacerts/tlsca.orderer.scsmsr.co.in-cert.pem
-export PEER0_ORG1_CA=${PWD}/../../organizations/peerOrganizations/scsmsr.co.in/peers/scsmsr.co.in/tls/ca.crt
+export PEER0_ORG1_CA=${PWD}/../../organizations/peerOrganizations/scsmsr.co.in/peers/opd.scsmsr.co.in/tls/ca.crt
 
 # export CORE_PEER_LOCALMSPID="SCSMSRMSP"
 # export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/../../organizations/ordererOrganizations/orderer.solapurhcareorderer.in/orderers/orderer.solapurhcareorderer.in/msp/tlscacerts/tlsca.solapurhcareorderer.in-cert.pem

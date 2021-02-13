@@ -19,14 +19,16 @@ cd scripts/solapurhcareorderer/
 docker-compose -f docker-compose-orderer.yaml up -d
 sleep 4
 cd ../civil/
-docker-compose -f docker-compose-civil.yaml up -d couchdb.scsmsr.co.in
-docker-compose -f docker-compose-civil.yaml up -d scsmsr.co.in
+docker-compose -f docker-compose-civil.yaml up -d couchdb.opd.scsmsr.co.in
+docker-compose -f docker-compose-civil.yaml up -d opd.scsmsr.co.in
+docker-compose -f docker-compose-civil.yaml up -d anchor.scsmsr.co.in
 docker-compose -f docker-compose-civil.yaml up -d orderer.scsmsr.co.in1
 sleep 4
 
 cd ../ashwini/
-docker-compose -f docker-compose-ashwini.yaml up -d couchdb.ashwinihospital.co.in
-docker-compose -f docker-compose-ashwini.yaml up -d ashwinihospital.co.in
+docker-compose -f docker-compose-ashwini.yaml up -d couchdb.opd.ashwinihospital.co.in
+docker-compose -f docker-compose-ashwini.yaml up -d opd.ashwinihospital.co.in
+docker-compose -f docker-compose-ashwini.yaml up -d anchor.ashwinihospital.co.in
 docker-compose -f docker-compose-ashwini.yaml up -d orderer.ashwinihospital.co.in1
 fi
 

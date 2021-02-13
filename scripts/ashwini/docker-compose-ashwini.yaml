@@ -2,7 +2,8 @@
 version: '3.5'
 
 volumes:
-  ashwinihospital.co.in:
+  opd.ashwinihospital.co.in:
+  anchor.ashwinihospital.co.in:
   orderer.ashwinihospital.co.in:
 
 networks:
@@ -10,14 +11,14 @@ networks:
    name: healthcare_network
 
 services:
-  couchdb.ashwinihospital.co.in:
-    container_name: couchdb.ashwinihospital.co.in
+  couchdb.opd.ashwinihospital.co.in:
+    container_name: couchdb.opd.ashwinihospital.co.in
     image: couchdb:3.1.1
     # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
     # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
     environment:
-      - COUCHDB_USER=ashiwinicouchdbadmin
-      - COUCHDB_PASSWORD=ashiwinicouchdbadminpw
+      - COUCHDB_USER=opdashwinicouchdbadmin
+      - COUCHDB_PASSWORD=opdashwinicouchdbadminpw
     # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
     # for example map it to utilize Fauxton User Interface in dev environments.
     ports:
@@ -25,8 +26,8 @@ services:
     networks:
       - healthcare_network
 
-  ashwinihospital.co.in:
-    container_name: ashwinihospital.co.in
+  opd.ashwinihospital.co.in:
+    container_name: opd.ashwinihospital.co.in
     image: hyperledger/fabric-peer:$IMAGE_TAG
     environment:
       #Generic peer variables
@@ -35,37 +36,79 @@ services:
       # bridge network as the peers
       # https://docs.docker.com/compose/networking/
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=healthcare_network
-      - FABRIC_LOGGING_SPEC=INFO
-      #- FABRIC_LOGGING_SPEC=DEBUG
+      # - FABRIC_LOGGING_SPEC=INFO
+      - FABRIC_LOGGING_SPEC=DEBUG
       - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_PROFILE_ENABLED=true
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
       # Peer specific variabes
-      - CORE_PEER_ID=ashwinihospital.co.in
-      - CORE_PEER_ADDRESS=ashwinihospital.co.in:9051
+      - CORE_PEER_ID=opd.ashwinihospital.co.in
+      - CORE_PEER_ADDRESS=opd.ashwinihospital.co.in:9051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
-      - CORE_PEER_CHAINCODEADDRESS=ashwinihospital.co.in:9052
+      - CORE_PEER_CHAINCODEADDRESS=opd.ashwinihospital.co.in:9052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=ashwinihospital.co.in:9051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=ashwinihospital.co.in:9051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=opd.ashwinihospital.co.in:9051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=opd.ashwinihospital.co.in:9051
       - CORE_PEER_LOCALMSPID=AshwiniHospitalMSP
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.ashwinihospital.co.in:5984
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=ashiwinicouchdbadmin
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=ashiwinicouchdbadminpw
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.opd.ashwinihospital.co.in:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=opdashwinicouchdbadmin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=opdashwinicouchdbadminpw
     volumes:
         - /var/run/:/host/var/run/
-        - ../../organizations/peerOrganizations/ashwinihospital.co.in/peers/ashwinihospital.co.in/msp:/etc/hyperledger/fabric/msp
-        - ../../organizations/peerOrganizations/ashwinihospital.co.in/peers/ashwinihospital.co.in/tls:/etc/hyperledger/fabric/tls
-        - ashwinihospital.co.in:/var/hyperledger/production
+        - ../../organizations/peerOrganizations/ashwinihospital.co.in/peers/opd.ashwinihospital.co.in/msp:/etc/hyperledger/fabric/msp
+        - ../../organizations/peerOrganizations/ashwinihospital.co.in/peers/opd.ashwinihospital.co.in/tls:/etc/hyperledger/fabric/tls
+        - opd.ashwinihospital.co.in:/var/hyperledger/production
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     depends_on: 
-      - couchdb.ashwinihospital.co.in
+      - couchdb.opd.ashwinihospital.co.in
     ports:
       - 9051:9051
+    networks:
+      - healthcare_network
+
+  anchor.ashwinihospital.co.in:
+    container_name: anchor.ashwinihospital.co.in
+    image: hyperledger/fabric-peer:$IMAGE_TAG
+    environment:
+      #Generic peer variables
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      # the following setting starts chaincode containers on the same
+      # bridge network as the peers
+      # https://docs.docker.com/compose/networking/
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=healthcare_network
+      # - FABRIC_LOGGING_SPEC=INFO
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      # Peer specific variabes
+      - CORE_PEER_ID=anchor.ashwinihospital.co.in
+      - CORE_PEER_ADDRESS=anchor.ashwinihospital.co.in:9053
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9053
+      # - CORE_PEER_CHAINCODEADDRESS=ashwinihospital.co.in:9052
+      # - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=anchor.ashwinihospital.co.in:9053
+      - CORE_PEER_GOSSIP_BOOTSTRAP=anchor.ashwinihospital.co.in:9053
+      - CORE_PEER_LOCALMSPID=AshwiniHospitalMSP
+      # - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      # - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.ashwinihospital.co.in:5984
+      # - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=ashiwinicouchdbadmin
+      # - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=ashiwinicouchdbadminpw
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../../organizations/peerOrganizations/ashwinihospital.co.in/peers/anchor.ashwinihospital.co.in/msp:/etc/hyperledger/fabric/msp
+        - ../../organizations/peerOrganizations/ashwinihospital.co.in/peers/anchor.ashwinihospital.co.in/tls:/etc/hyperledger/fabric/tls
+        - anchor.ashwinihospital.co.in:/var/hyperledger/production
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 9053:9053
     networks:
       - healthcare_network
 

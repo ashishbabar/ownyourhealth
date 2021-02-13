@@ -2,7 +2,8 @@
 version: '3.5'
 
 volumes:
-  scsmsr.co.in:
+  opd.scsmsr.co.in:
+  anchor.scsmsr.co.in:
   orderer.scsmsr.co.in:
 
 networks:
@@ -10,14 +11,14 @@ networks:
    name: healthcare_network
 
 services:
-  couchdb.scsmsr.co.in:
-    container_name: couchdb.scsmsr.co.in
+  couchdb.opd.scsmsr.co.in:
+    container_name: couchdb.opd.scsmsr.co.in
     image: couchdb:3.1.1
     # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
     # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
     environment:
-      - COUCHDB_USER=civilcouchdbadmin
-      - COUCHDB_PASSWORD=civilcouchdbadminpw
+      - COUCHDB_USER=opdcivilcouchdbadmin
+      - COUCHDB_PASSWORD=opdcivilcouchdbadminpw
     # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
     # for example map it to utilize Fauxton User Interface in dev environments.
     ports:
@@ -25,8 +26,8 @@ services:
     networks:
       - healthcare_network
 
-  scsmsr.co.in:
-    container_name: scsmsr.co.in
+  opd.scsmsr.co.in:
+    container_name: opd.scsmsr.co.in
     image: hyperledger/fabric-peer:$IMAGE_TAG
     environment:
       #Generic peer variables
@@ -43,32 +44,75 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
       # Peer specific variabes
-      - CORE_PEER_ID=scsmsr.co.in
-      - CORE_PEER_ADDRESS=scsmsr.co.in:7051
+      - CORE_PEER_ID=opd.scsmsr.co.in
+      - CORE_PEER_ADDRESS=opd.scsmsr.co.in:7051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
-      - CORE_PEER_CHAINCODEADDRESS=scsmsr.co.in:7052
+      - CORE_PEER_CHAINCODEADDRESS=opd.scsmsr.co.in:7052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=scsmsr.co.in:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=scsmsr.co.in:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=opd.scsmsr.co.in:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=opd.scsmsr.co.in:7051
       - CORE_PEER_LOCALMSPID=SCSMSRMSP
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.scsmsr.co.in:5984
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=civilcouchdbadmin
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=civilcouchdbadminpw
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.opd.scsmsr.co.in:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=opdcivilcouchdbadmin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=opdcivilcouchdbadminpw
     volumes:
         - /var/run/:/host/var/run/
-        - ../../organizations/peerOrganizations/scsmsr.co.in/peers/scsmsr.co.in/msp:/etc/hyperledger/fabric/msp
-        - ../../organizations/peerOrganizations/scsmsr.co.in/peers/scsmsr.co.in/tls:/etc/hyperledger/fabric/tls
-        - scsmsr.co.in:/var/hyperledger/production
+        - ../../organizations/peerOrganizations/scsmsr.co.in/peers/opd.scsmsr.co.in/msp:/etc/hyperledger/fabric/msp
+        - ../../organizations/peerOrganizations/scsmsr.co.in/peers/opd.scsmsr.co.in/tls:/etc/hyperledger/fabric/tls
+        - opd.scsmsr.co.in:/var/hyperledger/production
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     depends_on:
-      - couchdb.scsmsr.co.in
+      - couchdb.opd.scsmsr.co.in
     ports:
       - 7051:7051
     networks:
       - healthcare_network
-    
+
+  anchor.scsmsr.co.in:
+    container_name: anchor.scsmsr.co.in
+    image: hyperledger/fabric-peer:$IMAGE_TAG
+    environment:
+      #Generic peer variables
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      # the following setting starts chaincode containers on the same
+      # bridge network as the peers
+      # https://docs.docker.com/compose/networking/
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=healthcare_network
+      - FABRIC_LOGGING_SPEC=INFO
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      # Peer specific variabes
+      - CORE_PEER_ID=anchor.scsmsr.co.in
+      - CORE_PEER_ADDRESS=anchor.scsmsr.co.in:7053
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7053
+      # - CORE_PEER_CHAINCODEADDRESS=scsmsr.co.in:7052
+      # - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=anchor.scsmsr.co.in:7053
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=anchor.scsmsr.co.in:7053
+      - CORE_PEER_LOCALMSPID=SCSMSRMSP
+      # - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      # - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.scsmsr.co.in:5984
+      # - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=civilcouchdbadmin
+      # - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=civilcouchdbadminpw
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../../organizations/peerOrganizations/scsmsr.co.in/peers/anchor.scsmsr.co.in/msp:/etc/hyperledger/fabric/msp
+        - ../../organizations/peerOrganizations/scsmsr.co.in/peers/anchor.scsmsr.co.in/tls:/etc/hyperledger/fabric/tls
+        - anchor.scsmsr.co.in:/var/hyperledger/production
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 7053:7053
+    networks:
+      - healthcare_network
+ 
+
   orderer.scsmsr.co.in:
     container_name: orderer.scsmsr.co.in
     image: hyperledger/fabric-orderer:$IMAGE_TAG

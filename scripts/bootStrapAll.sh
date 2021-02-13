@@ -42,29 +42,40 @@ cd scripts/civil
 cd ../ashwini
 ./join_channel.sh
 
+./setAnchorPeer.sh
+
+cd ../civil
+
+./setAnchorPeer.sh
+
+cd ../ashwini
 # Wait 
 sleep 20
 
 # Deploy chaincode on peer
-./deploy-chaincode.sh
+./deploy-chaincode.sh "simpleContract" "simple-contract"
+./deploy-chaincode.sh "healthContract" "health-contract"
 
 sleep 5 
 
 cd ../civil
 # Deploy chaincode on peer
-./deploy-chaincode.sh
+./deploy-chaincode.sh "simpleContract" "simple-contract"
+./deploy-chaincode.sh "healthContract" "health-contract"
 
 # Commit chaincode on peer
-./commit-chaincode.sh
+./commit-chaincode.sh "simpleContract" "simple-contract"
+./commit-chaincode.sh "healthContract" "health-contract"
 
 sleep 5 
 
 cd ../ashwini
-
-./invoke-chaincode.sh
+# Invoke chaincode on peer (NEED TO BE CHANGED AS PER CHAINCODE)
+./invoke-chaincode.sh "simpleContract" "simple-contract"
+./invoke-chaincode.sh "healthContract" "health-contract"
 
 sleep 5 
 
 cd ../civil
-
-./interact-chaincode.sh
+# Interact with installed chaincode (NEED TO BE CHANGED AS PER CHAINCODE)
+./interact-chaincode.sh "simpleContract" "simple-contract"

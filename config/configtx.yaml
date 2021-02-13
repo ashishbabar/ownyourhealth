@@ -105,8 +105,8 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: scsmsr.co.in
-              Port: 7051
+            - Host: anchor.scsmsr.co.in
+              Port: 7053
 
     - &AshwiniHospitalOrderer
 
@@ -161,8 +161,8 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: ashwinihospital.co.in
-              Port: 9051
+            - Host: anchor.ashwinihospital.co.in
+              Port: 9053
 
 ################################################################################
 #
