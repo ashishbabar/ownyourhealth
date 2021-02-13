@@ -1,0 +1,60 @@
+{
+    "name": "health-network-${ORG}",
+    "version": "1.0.0",
+    "client": {
+        "organization": "${ORG}",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "${ORG}": {
+            "mspid": "${MSP}",
+            "peers": [
+                "${PEER}",
+                "${ANCHORPEER}"
+            ],
+            "certificateAuthorities": [
+                "${CA}"
+            ]
+        }
+    },
+    "peers": {
+        "${PEER}": {
+            "url": "grpcs://localhost:${P0PORT}",
+            "tlsCACerts": {
+                "pem": "${PEERPEM}"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "${PEER}",
+                "hostnameOverride": "${PEER}"
+            }
+        },
+        "${ANCHORPEER}": {
+            "url": "grpcs://localhost:${ANCHORPOPORT}",
+            "tlsCACerts": {
+                "pem": "${PEERPEM}"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "${ANCHORPEER}",
+                "hostnameOverride": "${ANCHORPEER}"
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "${CA}": {
+            "url": "https://localhost:${CAPORT}",
+            "caName": "${CA}",
+            "tlsCACerts": {
+                "pem": ["${CAPEM}"]
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        }
+    }
+}
