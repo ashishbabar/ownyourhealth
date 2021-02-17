@@ -67,6 +67,7 @@ services:
       - couchdb.opd.scsmsr.co.in
     ports:
       - 7051:7051
+      - 7052:7052
     networks:
       - healthcare_network
 
@@ -91,8 +92,8 @@ services:
       - CORE_PEER_ID=anchor.scsmsr.co.in
       - CORE_PEER_ADDRESS=anchor.scsmsr.co.in:7053
       - CORE_PEER_LISTENADDRESS=0.0.0.0:7053
-      # - CORE_PEER_CHAINCODEADDRESS=scsmsr.co.in:7052
-      # - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_CHAINCODEADDRESS=scsmsr.co.in:7055
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7055
       - CORE_PEER_GOSSIP_BOOTSTRAP=anchor.scsmsr.co.in:7053
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=anchor.scsmsr.co.in:7053
       - CORE_PEER_LOCALMSPID=SCSMSRMSP
@@ -109,6 +110,7 @@ services:
     command: peer node start
     ports:
       - 7053:7053
+      - 7055:7055
     networks:
       - healthcare_network
  

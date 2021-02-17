@@ -10,7 +10,7 @@ CIVIL_CA=${PWD}/../../organizations/peerOrganizations/scsmsr.co.in/peers/opd.scs
 
 export CORE_PEER_LOCALMSPID="AshwiniHospitalMSP"
 export CORE_PEER_TLS_ROOTCERT_FILE=$ASHWINI_CA
-export CORE_PEER_MSPCONFIGPATH=${PWD}/../../organizations/peerOrganizations/opd.ashwinihospital.co.in/users/Admin@ashwinihospital.co.in/msp
+export CORE_PEER_MSPCONFIGPATH=${PWD}/../../organizations/peerOrganizations/ashwinihospital.co.in/users/Admin@ashwinihospital.co.in/msp
 export CORE_PEER_ADDRESS=localhost:9051
 CC_NAME=${1}
 CC_DIR=${2}

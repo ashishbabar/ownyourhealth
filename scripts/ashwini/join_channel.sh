@@ -17,6 +17,11 @@ export CORE_PEER_ADDRESS=localhost:9051
 
 peer channel join -b ../../channel-artifacts/$CHANNEL_NAME.block >&log/channel-join-log.txt
 
+export ASHWINI_CA=${PWD}/../../organizations/peerOrganizations/ashwinihospital.co.in/peers/anchor.ashwinihospital.co.in/tls/ca.crt
+export CORE_PEER_ADDRESS=localhost:9053
+
+peer channel join -b ../../channel-artifacts/$CHANNEL_NAME.block >&log/anchor-channel-join-log.txt
+
 # peer channel create \
 # -o localhost:7050 \
 # -c general-medicine-channel \

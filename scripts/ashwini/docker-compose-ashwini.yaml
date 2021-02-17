@@ -67,6 +67,7 @@ services:
       - couchdb.opd.ashwinihospital.co.in
     ports:
       - 9051:9051
+      - 9052:9052
     networks:
       - healthcare_network
 
@@ -91,8 +92,8 @@ services:
       - CORE_PEER_ID=anchor.ashwinihospital.co.in
       - CORE_PEER_ADDRESS=anchor.ashwinihospital.co.in:9053
       - CORE_PEER_LISTENADDRESS=0.0.0.0:9053
-      # - CORE_PEER_CHAINCODEADDRESS=ashwinihospital.co.in:9052
-      # - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_CHAINCODEADDRESS=ashwinihospital.co.in:9055
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9055
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=anchor.ashwinihospital.co.in:9053
       - CORE_PEER_GOSSIP_BOOTSTRAP=anchor.ashwinihospital.co.in:9053
       - CORE_PEER_LOCALMSPID=AshwiniHospitalMSP
@@ -109,6 +110,7 @@ services:
     command: peer node start
     ports:
       - 9053:9053
+      - 9055:9055
     networks:
       - healthcare_network
 
