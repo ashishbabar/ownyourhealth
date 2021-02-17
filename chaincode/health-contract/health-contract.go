@@ -75,6 +75,24 @@ type Permissions struct {
 	Hospital string `json:"hospital"`
 }
 
+func (hc *HealthContract) ReadPatient(ctx contractapi.TransactionContextInterface, id string) (*Patient, error) {
+	patientJSON, err := ctx.GetStub().GetState(id)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read from world state: %v", err)
+	}
+	if patientJSON == nil {
+		return nil, fmt.Errorf("the patient %s does not exist", id)
+	}
+
+	var patient Patient
+	err = json.Unmarshal(patientJSON, &patient)
+	if err != nil {
+		return nil, err
+	}
+
+	return &patient, nil
+}
+
 func (hc *HealthContract) AdmitPatient(ctx contractapi.TransactionContextInterface, newPatientString string) error {
 	var newPatient Patient
 	err := json.Unmarshal([]byte(newPatientString), &newPatient)
@@ -96,6 +114,24 @@ func (hc *HealthContract) AdmitPatient(ctx contractapi.TransactionContextInterfa
 	}
 
 	return ctx.GetStub().PutState(newPatient.PId, patientJSON)
+}
+
+func (hc *HealthContract) ReadSymptoms(ctx contractapi.TransactionContextInterface, id string) (*Illness, error) {
+	symptomsJSON, err := ctx.GetStub().GetState(id)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read from world state: %v", err)
+	}
+	if symptomsJSON == nil {
+		return nil, fmt.Errorf("the symptoms %s does not exist", id)
+	}
+
+	var symptoms Illness
+	err = json.Unmarshal(symptomsJSON, &symptoms)
+	if err != nil {
+		return nil, err
+	}
+
+	return &symptoms, nil
 }
 
 func (hc *HealthContract) NoteSymptoms(ctx contractapi.TransactionContextInterface, newSymptomsString string) error {
@@ -122,6 +158,24 @@ func (hc *HealthContract) NoteSymptoms(ctx contractapi.TransactionContextInterfa
 
 }
 
+func (hc *HealthContract) ReadDiagnosis(ctx contractapi.TransactionContextInterface, id string) (*Diagnosis, error) {
+	diagnosisJSON, err := ctx.GetStub().GetState(id)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read from world state: %v", err)
+	}
+	if diagnosisJSON == nil {
+		return nil, fmt.Errorf("the diagnosis %s does not exist", id)
+	}
+
+	var diagnosis Diagnosis
+	err = json.Unmarshal(diagnosisJSON, &diagnosis)
+	if err != nil {
+		return nil, err
+	}
+
+	return &diagnosis, nil
+}
+
 func (hc *HealthContract) DiagnosePatient(ctx contractapi.TransactionContextInterface, newDiagnosisString string) error {
 	var newDiagnosis Diagnosis
 	err := json.Unmarshal([]byte(newDiagnosisString), &newDiagnosis)
@@ -143,6 +197,24 @@ func (hc *HealthContract) DiagnosePatient(ctx contractapi.TransactionContextInte
 	}
 
 	return ctx.GetStub().PutState(newDiagnosis.DId, diagnosisJSON)
+}
+
+func (hc *HealthContract) ReadPrescription(ctx contractapi.TransactionContextInterface, id string) (*Prescription, error) {
+	prescriptionJSON, err := ctx.GetStub().GetState(id)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read from world state: %v", err)
+	}
+	if prescriptionJSON == nil {
+		return nil, fmt.Errorf("the prescription %s does not exist", id)
+	}
+
+	var prescription Prescription
+	err = json.Unmarshal(prescriptionJSON, &prescription)
+	if err != nil {
+		return nil, err
+	}
+
+	return &prescription, nil
 }
 
 func (hc *HealthContract) WritePrescription(ctx contractapi.TransactionContextInterface, newPrescriptionString string) error {

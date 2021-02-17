@@ -137,6 +137,29 @@ func init() {
 	contract = network.GetContract("healthContract")
 }
 
+func getPatient(w http.ResponseWriter, r *http.Request) {
+	log.Println("============ Processing get patient call ============")
+
+	vars := mux.Vars(r)
+	log.Println("--> Evaluate Transaction: Getting patient " + vars["id"])
+	result, err := contract.EvaluateTransaction("ReadPatient", vars["id"])
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	if err != nil {
+		log.Println("Failed to Get Asset: %v", err)
+
+		json.NewEncoder(w).Encode(err.Error())
+
+	} else {
+		log.Println(string(result))
+		var response map[string]interface{}
+		if err := json.Unmarshal(result, &response); err != nil {
+			panic(err)
+		}
+		json.NewEncoder(w).Encode(response)
+	}
+}
+
 func admitPatient(w http.ResponseWriter, r *http.Request) {
 	var newPatient Patient
 	log.Println("============ Processing admit patient call ============")
@@ -168,6 +191,28 @@ func admitPatient(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println("============ Completed admit patient call ============")
 }
+func getSymptoms(w http.ResponseWriter, r *http.Request) {
+	log.Println("============ Processing get symptoms call ============")
+
+	vars := mux.Vars(r)
+	log.Println("--> Evaluate Transaction: Getting Symptoms " + vars["id"])
+	result, err := contract.EvaluateTransaction("ReadSymptoms", vars["id"])
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	if err != nil {
+		log.Println("Failed to Get Symptoms: %v", err)
+
+		json.NewEncoder(w).Encode(err.Error())
+
+	} else {
+		log.Println(string(result))
+		var response map[string]interface{}
+		if err := json.Unmarshal(result, &response); err != nil {
+			panic(err)
+		}
+		json.NewEncoder(w).Encode(response)
+	}
+}
 func noteSymptoms(w http.ResponseWriter, r *http.Request) {
 	var newSymptoms Illness
 	log.Println("============ Processing note symptoms call ============")
@@ -195,6 +240,30 @@ func noteSymptoms(w http.ResponseWriter, r *http.Request) {
 	log.Println("============ Completed note symptoms call ============")
 
 }
+
+func getDiagnosis(w http.ResponseWriter, r *http.Request) {
+	log.Println("============ Processing get dignosis call ============")
+
+	vars := mux.Vars(r)
+	log.Println("--> Evaluate Transaction: Getting dignosis " + vars["id"])
+	result, err := contract.EvaluateTransaction("ReadDiagnosis", vars["id"])
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	if err != nil {
+		log.Println("Failed to Get dignosis: %v", err)
+
+		json.NewEncoder(w).Encode(err.Error())
+
+	} else {
+		log.Println(string(result))
+		var response map[string]interface{}
+		if err := json.Unmarshal(result, &response); err != nil {
+			panic(err)
+		}
+		json.NewEncoder(w).Encode(response)
+	}
+}
+
 func dignosePatient(w http.ResponseWriter, r *http.Request) {
 	var newDiagnosis Diagnosis
 	log.Println("============ Processing dignose patient call ============")
@@ -220,6 +289,29 @@ func dignosePatient(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(newDiagnosis)
 	}
 	log.Println("============ Completed dignose patient call ============")
+}
+
+func getPrescription(w http.ResponseWriter, r *http.Request) {
+	log.Println("============ Processing get prescription call ============")
+
+	vars := mux.Vars(r)
+	log.Println("--> Evaluate Transaction: Getting prescription " + vars["id"])
+	result, err := contract.EvaluateTransaction("ReadPrescription", vars["id"])
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	if err != nil {
+		log.Println("Failed to Get prescription: %v", err)
+
+		json.NewEncoder(w).Encode(err.Error())
+
+	} else {
+		log.Println(string(result))
+		var response map[string]interface{}
+		if err := json.Unmarshal(result, &response); err != nil {
+			panic(err)
+		}
+		json.NewEncoder(w).Encode(response)
+	}
 }
 
 func writePrescription(w http.ResponseWriter, r *http.Request) {
@@ -252,6 +344,10 @@ func writePrescription(w http.ResponseWriter, r *http.Request) {
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", homeLink)
+	router.HandleFunc("/getPatient/{id}", getPatient)
+	router.HandleFunc("/getSymptoms/{id}", getSymptoms)
+	router.HandleFunc("/getDiagnosis/{id}", getDiagnosis)
+	router.HandleFunc("/getPrescription/{id}", getPrescription)
 	router.HandleFunc("/admitPatient", admitPatient).Methods("POST")
 	router.HandleFunc("/noteSymptoms", noteSymptoms).Methods("POST")
 	router.HandleFunc("/dignosePatient", dignosePatient).Methods("POST")

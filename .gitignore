@@ -44,3 +44,4 @@ chaincode/simple-contract/simple-contract
 /channel-artifacts
 
 /organizations
+api/main
