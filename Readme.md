@@ -17,6 +17,6 @@ Above organization will have one endorsing peer (out patient department) respons
 
 # Work in progress!
 
-  - Fabric SDK using Golang
-  - Smart contract to store patient information
+  - Symmetric encryption for patient information
+  - Private transaction of diagnosis between patients and hospitals
 
