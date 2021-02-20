@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img width="200" height="200" src="https://raw.githubusercontent.com/ashishbabar/ownyourhealth/main/logo_200x200.png">
+  <img width="300" height="300" src="https://raw.githubusercontent.com/ashishbabar/ownyourhealth/main/logo_200x200.png">
 </p>
 
 OwnYourHealth is solution for Healthcare facilities who are willing to trade information with each other. The patient have complete right over his medical information and he can allow faculty to access this information with his consent.
