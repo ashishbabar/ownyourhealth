@@ -9,7 +9,9 @@ The consotium consists of below memebers
   - Solapur health care, Solapur
   - Civil Hospital, Solapur
   - Ashwini Hospital, Solapur
-
+<p align="center">
+  <img width="200" height="200" src="https://github.com/ashishbabar/ownyourhealth/blob/main/network-diag.png">
+</p>
 
 Above organization will have one endorsing peer (out patient department) responsible for endorsing transanctions, an anchor peer dedicated for gossip and one orderer for ordering service.
 
