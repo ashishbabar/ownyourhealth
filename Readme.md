@@ -6,9 +6,9 @@
 OwnYourHealth is solution for Healthcare facilities who are willing to trade information with each other. The patient have complete right over his medical information and he can allow faculty to access this information with his consent.
 
 The consotium consists of below memebers
-  - Solapur health care, Solapur
-  - Civil Hospital, Solapur
-  - Ashwini Hospital, Solapur
+  - Solapur health care
+  - Civil Hospital
+  - Ashwini Hospital
 <p align="center">
   <img width="800" height="580" src="https://github.com/ashishbabar/ownyourhealth/blob/main/network-diagram.png">
 </p>
