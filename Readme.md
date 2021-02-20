@@ -18,5 +18,5 @@ Above organization will have one endorsing peer (out patient department) respons
 # Work in progress!
 
   - Symmetric encryption for patient information
-  - Private transaction of diagnosis between patients and hospitals
+  - Private transactions between patients and hospitals
 
